@@ -1,0 +1,106 @@
+Gui,+AlwaysOnTop 
+Gui, Add, Button, x16 y17 w100 h30 , Print Menu
+Gui, Add, Button, x16 y57 w110 h30 , Flow Calc
+Gui, Add, Button, x16 y97 w90 h30 , 2014 Folder
+Gui, Add, Button, x16 y257 w100 h30 , DS Tray
+Gui, Add, Button, x16 y137 w100 h30 , AS400
+Gui, Add, Button, x16 y537 w100 h30 , Prev Report
+Gui, Add, Button, x16 y577 w100 h30 , Close All
+Gui, Add, Button, x16 y217 w100 h30 , SAMPLE LIST xls
+Gui, Add, Button, x16 y177 w100 h30 , Serum Screening
+Gui, Add, Button, x16 y297 w100 h30 , DS Folder
+Gui, Add, Button, x16 y337 w100 h30 , T Drive
+Gui, Add, Button, x16 y377 w100 h30 , Cerner App
+Gui, Add, Button, x16 y417 w100 h30 , Tray Layout
+Gui, Add, Button, x16 y457 w100 h30 , Work Log
+Gui, Show, x131 y91 h619 w137, HLA Menu
+Return
+
+
+GuiClose:
+ExitApp
+Return
+
+ButtonPrintMenu:
+Run T:\Personal DS\AHK3\Scripts\PrintMenu.ahk
+Return
+
+ButtonFlowCalc:
+Run T:\Personal DS\Work Stuff\Protocols and Work Guide\Flow XM\FlowCalc.xlsx
+Return
+
+Button2014Folder:
+FormatTime, year,, yyyy
+Run T:\%year% Login Book
+Return
+
+ButtonDSTray:
+Run T:\Personal DS\Work Stuff\TrayLayout1.xlsm
+Return
+
+ButtonPrevReport:
+Run T:\Personal DS\AHK3\Scripts\PrevReport_Fusion.ahk
+Return
+
+ButtonAS400:
+Run C:\Program Files (x86)\Citrix\ICA Client\pnagent.exe /CitrixShortcut: (3) /QLaunch "CitrixXenApp5_2003:AS400"
+Return
+
+ButtonSAMPLELISTxls:
+Run T:\_Labscreen Templates\SAMPLE LIST.csv
+Return
+
+ButtonSerumScreening:
+Run T:\Serum Screening Worksheets
+Return
+
+ButtonDSFolder:
+Run T:\Personal DS
+Return
+
+ButtonTDrive:
+Run T:\
+Return
+
+ButtonCernerApp:
+Run C:\Program Files (x86)\Citrix\ICA Client\pnagent.exe /CitrixShortcut: (3) /QLaunch "CitrixXenApp65:AppBar"
+Return
+
+ButtonTrayLayout:
+Run T:\_LABType Templates\TrayLayout Template.xlt
+Return
+
+ButtonWorkLog:
+FormatTime, TimeString,, MM MMM yyyy
+FormatTime, year,, yyyy
+Run T:\Personal DS\Work Stuff\Work Log\%year%\Work Log %year%.xlsx
+Return
+
+#b::
+FormatTime, TimeString,, MM MMM yyyy
+FormatTime, year,, yyyy
+Run T:\%year% Login Book\%TimeString%.xls
+Return
+
+#t::
+Run T:\
+Return
+
+#w::
+FormatTime, TimeString,, MM MMM yyyy
+FormatTime, year,, yyyy
+Run T:\Personal DS\Work Stuff\Work Log\%year%\Work Log %year%.xlsx
+Return
+
+#m::
+Send, A3S2CM9RMYGNGK
+Return
+
+
+ButtonCloseAll:
+DetectHiddenWindows, On 
+WinGet, List, List, ahk_class AutoHotkey 
+Loop %List% 
+  If ( List%A_Index% <> WinExist( A_ScriptFullPath " ahk_class AutoHotkey") ) 
+     PostMessage,0x111,65405,0,,% "ahk_id" List%A_Index%
+Return
