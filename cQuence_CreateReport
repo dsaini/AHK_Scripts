@@ -1,0 +1,101 @@
+Gui, Add, Text, x17 y11 w30 h20 , MRN
+Gui, Add, Edit, x46 y7 w100 h20 vmrn2, 
+Gui, Add, Button, x16 y47 w60 h30 , New XM
+Gui, Add, Button, x86 y47 w70 h30 , New Typing
+Gui, Show, x131 y91 h98 w185, Cquence Report
+Return
+
+ButtonNewTyping:
+Gui, Submit
+WinWait, Cquence MT - cfuabprd - \\Remote, 
+IfWinNotActive, Cquence MT - cfuabprd - \\Remote, , WinActivate, Cquence MT - cfuabprd - \\Remote, 
+WinWaitActive, Cquence MT - cfuabprd - \\Remote, 
+Send, %mrn2%
+Send, {CTRLDOWN}n{CTRLUP}
+WinWait, Verify Medical Record Information - \\Remote, 
+IfWinNotActive, Verify Medical Record Information - \\Remote, , WinActivate, Verify Medical Record Information - \\Remote, 
+WinWaitActive, Verify Medical Record Information - \\Remote, 
+MouseClick, left,  224,  184
+Sleep, 100
+WinWait, Select a Work Type: - \\Remote, 
+IfWinNotActive, Select a Work Type: - \\Remote, , WinActivate, Select a Work Type: - \\Remote, 
+WinWaitActive, Select a Work Type: - \\Remote, 
+MouseClick, left,  295,  60
+Sleep, 100
+WinWait, Verify Medical Record Information - \\Remote, 
+IfWinNotActive, Verify Medical Record Information - \\Remote, , WinActivate, Verify Medical Record Information - \\Remote, 
+WinWaitActive, Verify Medical Record Information - \\Remote, 
+MouseClick, left,  220,  228
+Sleep, 100
+WinWait, Select Dictating Clinician - \\Remote, 
+IfWinNotActive, Select Dictating Clinician - \\Remote, , WinActivate, Select Dictating Clinician - \\Remote, 
+WinWaitActive, Select Dictating Clinician - \\Remote, 
+MouseClick, left,  140,  98
+Sleep, 100
+MouseClick, left,  352,  65
+Sleep, 100
+WinWait, Verify Medical Record Information - \\Remote, 
+IfWinNotActive, Verify Medical Record Information - \\Remote, , WinActivate, Verify Medical Record Information - \\Remote, 
+WinWaitActive, Verify Medical Record Information - \\Remote, 
+MouseClick, left,  31,  397
+Sleep, 100
+MouseClick, left,  452,  107
+Sleep, 100
+WinWait, Open - \\Remote, 
+IfWinNotActive, Open - \\Remote, , WinActivate, Open - \\Remote, 
+WinWaitActive, Open - \\Remote, 
+MouseClick, left,  168,  175
+Sleep, 100
+MouseClick, left,  499,  261
+Sleep, 100
+WinWait, Verify Medical Record Information - \\Remote, 
+IfWinNotActive, Verify Medical Record Information - \\Remote, , WinActivate, Verify Medical Record Information - \\Remote, 
+WinWaitActive, Verify Medical Record Information - \\Remote, 
+MouseClick, left,  458,  352
+Sleep, 100
+WinWait, Select Attending Clinician - \\Remote, 
+IfWinNotActive, Select Attending Clinician - \\Remote, , WinActivate, Select Attending Clinician - \\Remote, 
+WinWaitActive, Select Attending Clinician - \\Remote, 
+MouseClick, left,  136,  81
+Sleep, 100
+MouseClick, left,  401,  64
+Sleep, 100
+WinWait, Verify Medical Record Information - \\Remote, 
+IfWinNotActive, Verify Medical Record Information - \\Remote, , WinActivate, Verify Medical Record Information - \\Remote, 
+WinWaitActive, Verify Medical Record Information - \\Remote, 
+MouseClick, left,  266,  394
+Sleep, 100
+MouseClick, left,  269,  421
+Sleep, 100
+MouseClick, left,  539,  82
+Sleep, 100
+Return
+
+ButtonNewXM:
+Gui, Submit
+WinWait, Cquence MT - cfuabprd - \\Remote, 
+IfWinNotActive, Cquence MT - cfuabprd - \\Remote, , WinActivate, Cquence MT - cfuabprd - \\Remote, 
+WinWaitActive, Cquence MT - cfuabprd - \\Remote, 
+Send, %mrn2%
+Send, {CTRLDOWN}n{CTRLUP}
+WinWait, Verify Medical Record Information - \\Remote, 
+IfWinNotActive, Verify Medical Record Information - \\Remote, , WinActivate, Verify Medical Record Information - \\Remote, 
+WinWaitActive, Verify Medical Record Information - \\Remote, 
+MouseClick, left,  221,  187
+Sleep, 100
+WinWait, Select a Work Type: - \\Remote, 
+IfWinNotActive, Select a Work Type: - \\Remote, , WinActivate, Select a Work Type: - \\Remote, 
+WinWaitActive, Select a Work Type: - \\Remote, 
+MouseClick, left,  96,  87
+Sleep, 100
+MouseClick, left,  301,  56
+Sleep, 100
+WinWait, Verify Medical Record Information - \\Remote, 
+IfWinNotActive, Verify Medical Record Information - \\Remote, , WinActivate, Verify Medical Record Information - \\Remote, 
+WinWaitActive, Verify Medical Record Information - \\Remote, 
+MouseClick, left,  227,  223
+Sleep, 100
+WinWait, Select Dictating Clinician - \\Remote, 
+IfWinNotActive, Select Dictating Clinician - \\Remote, , WinActivate, Select Dictating Clinician - \\Remote, 
+WinWaitActive, Select Dictating Clinician - \\Remote, 
+MouseClick, left,  129,  96
