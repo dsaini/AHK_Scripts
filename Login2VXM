@@ -1,0 +1,61 @@
+InputBox,x,Enter number,How many VXMs?
+
+oApp := ComObjCreate("Excel.Application")
+oApp.Visible := False
+oWorkbook1 := oApp.Workbooks.Open("C:\Users\dsaini\Downloads\02 Feb 2015_test.xls")
+oWorkbook2 := oApp.Workbooks.Open("T:\Personal DS\Work Stuff\Worksheets_RenalVXM report.xlsx") 
+End_Cell := oWorkbook1.ActiveSheet.Cells(oWorkbook1.ActiveSheet.Rows.Count, "A").End(xlUp := -4162)
+End_Row := oWorkBook1.ActiveSheet.Columns("A").End(-4121).Row
+xlRng_A := oWorkbook1.ActiveSheet.Range("A2", End_Cell)
+for cell in xlRng_A
+{
+	rownum := cell.row
+	A%rownum% := cell.text
+	E%rownum% := cell.offset(0,4).text
+	F%rownum% := cell.offset(0,5).text
+	
+}
+
+Start_Cell := (End_Row - x)+1
+
+n1 := Start_Cell
+n2 := Start_Cell+1
+n3 := Start_Cell+2
+n4 := Start_Cell+3
+n5 := Start_Cell+4
+n6 := Start_Cell+5
+n7 := Start_Cell+6
+n8 := Start_Cell+7
+n9 := Start_Cell+8
+n10 := Start_Cell+9
+
+
+oWorkbook2.ActiveSheet.Range("D2").Value :=  E%n1%
+oWorkbook2.ActiveSheet.Range("D3").Value :=  E%n2%
+oWorkbook2.ActiveSheet.Range("D4").Value :=  E%n3%
+oWorkbook2.ActiveSheet.Range("D5").Value :=  E%n4%
+oWorkbook2.ActiveSheet.Range("D6").Value :=  E%n5%
+oWorkbook2.ActiveSheet.Range("D7").Value :=  E%n6%
+oWorkbook2.ActiveSheet.Range("D8").Value :=  E%n7%
+oWorkbook2.ActiveSheet.Range("D9").Value :=  E%n8%
+oWorkbook2.ActiveSheet.Range("D10").Value :=  E%n9%
+oWorkbook2.ActiveSheet.Range("D11").Value :=  E%n10%
+
+oWorkbook2.ActiveSheet.Range("E2").Value :=  F%n1%
+oWorkbook2.ActiveSheet.Range("E3").Value :=  F%n2%
+oWorkbook2.ActiveSheet.Range("E4").Value :=  F%n3%
+oWorkbook2.ActiveSheet.Range("E5").Value :=  F%n4%
+oWorkbook2.ActiveSheet.Range("E6").Value :=  F%n5%
+oWorkbook2.ActiveSheet.Range("E7").Value :=  F%n6%
+oWorkbook2.ActiveSheet.Range("E8").Value :=  F%n7%
+oWorkbook2.ActiveSheet.Range("E9").Value :=  F%n8%
+oWorkbook2.ActiveSheet.Range("E10").Value :=  F%n9%
+oWorkbook2.ActiveSheet.Range("E11").Value :=  F%n10%
+
+oWorkbook2.Save
+oWorkbook2.Close
+oWorkbook1.Close
+oApp.quit()
+
+Run, T:\Personal DS\AHK3\Scripts\VXM_reports.ahk
+ExitApp
