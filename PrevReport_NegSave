@@ -1,0 +1,50 @@
+FormatTime, date ,, M/dd/yy
+clipboard = %date%_DS
+
+#p::
+WinWait, Advanced Report Search... - \\Remote, 
+IfWinNotActive, Advanced Report Search... - \\Remote, , WinActivate, Advanced Report Search... - \\Remote, 
+WinWaitActive, Advanced Report Search... - \\Remote, 
+MouseClick, left,  254,  106
+Sleep, 100
+MouseClick, left,  274,  106
+Sleep, 100
+Send, 2000
+MouseClick, left,  251,  146
+Sleep, 100
+MouseClick, left,  167,  179
+Sleep, 100
+WinWait, Select Work Type - \\Remote, 
+IfWinNotActive, Select Work Type - \\Remote, , WinActivate, Select Work Type - \\Remote, 
+WinWaitActive, Select Work Type - \\Remote, 
+Send, {DOWN}{DOWN}{ENTER}
+WinWait, Advanced Report Search... - \\Remote, 
+IfWinNotActive, Advanced Report Search... - \\Remote, , WinActivate, Advanced Report Search... - \\Remote, 
+WinWaitActive, Advanced Report Search... - \\Remote, 
+MouseClick, left,  542,  79
+Sleep, 100
+Return
+
+#s::
+WinWait, HLA Fusion™, 
+IfWinNotActive, HLA Fusion™, , WinActivate, HLA Fusion™, 
+WinWaitActive, HLA Fusion™, 
+MouseClick, left,  874,  807
+Sleep, 100
+MouseClick, left,  455,  926
+Sleep, 100
+Send, %date%_DS
+MouseClick, left,  349,  900
+Sleep, 100
+WinWait, Donor Group Selection, 
+IfWinNotActive, Donor Group Selection, , WinActivate, Donor Group Selection, 
+WinWaitActive, Donor Group Selection, 
+MouseClick, left,  47,  78
+Sleep, 100
+MouseClick, left,  459,  443
+Sleep, 100
+WinWait, Class : I, 
+IfWinNotActive, Class : I, , WinActivate, Class : I, 
+WinWaitActive, Class : I, 
+Send, {ENTER}
+Return
