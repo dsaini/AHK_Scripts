@@ -1,0 +1,34 @@
+m := ComObjMissing()
+FilePath := "C:\Users\dsaini\Downloads\Fusion_all_021215.csv"
+
+InputBox, inputValue, title, enter value here
+oWorkbook := ComObjGet(FilePath)
+oExcelsheet := oWorkbook.Worksheets(1)
+oRange := oExcelsheet.UsedRange
+
+f := oRange.Find[inputValue, m, m, xlWhole:=true]
+
+FoundValue := f.text
+a1p := f.offset(0,32).text
+a2p := f.offset(0,33).text
+b1p := f.offset(0,34).text
+b1p := f.offset(0,35).text
+bw1p := f.offset(0,12).text
+bw2p := f.offset(0,13).text
+c1p := f.offset(0,36).text
+c2p := f.offset(0,37).text
+dr1p := f.offset(0,38).text
+dr2p:= f.offset(0,39).text
+dqb1p := f.offset(0,42).text
+dqb2p := f.offset(0,43).text
+dqa1p := f.offset(0,26).text
+dqa2p := f.offset(0,27).text
+dw1p := f.offset(0,40).text
+dw2p := f.offset(0,41).text
+dpb1p := f.offset(0,28).text
+dpb2p := f.offset(0,29).text
+dpa1p := f.offset(0,30).text
+dpa2p := f.offset(0,31).text
+
+
+MsgBox, A1:%a1p% A2:%a2p% `nB:%b1p% B:%b2p%
