@@ -1,0 +1,344 @@
+#Include T:\Personal DS\AHK3\Scripts\abFormat.ahk
+
+oSheetclassI := ComObjGet("C:\OLI FUSION\data\report\abi.xls")
+oSheetclassII := ComObjGet("C:\OLI FUSION\data\report\abii.xls")
+
+;SAMPLE ID and Patient Name
+p1 := oSheetclassI.Worksheets(1).Range("C2").Text
+p2 := oSheetclassI.Worksheets(1).Range("C3").Text
+p3 := oSheetclassI.Worksheets(1).Range("C4").Text
+p4 := oSheetclassI.Worksheets(1).Range("C5").Text
+p5 := oSheetclassI.Worksheets(1).Range("C6").Text
+p6 := oSheetclassI.Worksheets(1).Range("C7").Text
+p7 := oSheetclassI.Worksheets(1).Range("C8").Text
+p8 := oSheetclassI.Worksheets(1).Range("C9").Text
+p9 := oSheetclassI.Worksheets(1).Range("C10").Text
+p10 := oSheetclassI.Worksheets(1).Range("C11").Text
+p11 := oSheetclassI.Worksheets(1).Range("C12").Text
+p12 := oSheetclassI.Worksheets(1).Range("C13").Text
+p13 := oSheetclassI.Worksheets(1).Range("C14").Text
+p14 := oSheetclassI.Worksheets(1).Range("C15").Text
+p15 := oSheetclassI.Worksheets(1).Range("C16").Text
+p16 := oSheetclassI.Worksheets(1).Range("C17").Text
+p17 := oSheetclassI.Worksheets(1).Range("C18").Text
+p18 := oSheetclassI.Worksheets(1).Range("C19").Text
+p19 := oSheetclassI.Worksheets(1).Range("C20").Text
+p20 := oSheetclassI.Worksheets(1).Range("C21").Text
+p21 := oSheetclassI.Worksheets(1).Range("C22").Text
+p22 := oSheetclassI.Worksheets(1).Range("C23").Text
+
+;Other Assignment Class I
+oi1 := oSheetclassI.Worksheets(1).Range("E2").Text
+oi2 := oSheetclassI.Worksheets(1).Range("E3").Text
+oi3 := oSheetclassI.Worksheets(1).Range("E4").Text
+oi4 := oSheetclassI.Worksheets(1).Range("E5").Text
+oi5 := oSheetclassI.Worksheets(1).Range("E6").Text
+oi6 := oSheetclassI.Worksheets(1).Range("E7").Text
+oi7 := oSheetclassI.Worksheets(1).Range("E8").Text
+oi8 := oSheetclassI.Worksheets(1).Range("E9").Text
+oi9 := oSheetclassI.Worksheets(1).Range("E10").Text
+oi10 := oSheetclassI.Worksheets(1).Range("E11").Text
+oi11 := oSheetclassI.Worksheets(1).Range("E12").Text
+oi12 := oSheetclassI.Worksheets(1).Range("E13").Text
+oi13 := oSheetclassI.Worksheets(1).Range("E14").Text
+oi14 := oSheetclassI.Worksheets(1).Range("E15").Text
+oi15 := oSheetclassI.Worksheets(1).Range("E16").Text
+oi16 := oSheetclassI.Worksheets(1).Range("E17").Text
+oi17 := oSheetclassI.Worksheets(1).Range("E18").Text
+oi18 := oSheetclassI.Worksheets(1).Range("E19").Text
+oi19 := oSheetclassI.Worksheets(1).Range("E20").Text
+oi20 := oSheetclassI.Worksheets(1).Range("E21").Text
+oi21 := oSheetclassI.Worksheets(1).Range("E22").Text
+oi22 := oSheetclassI.Worksheets(1).Range("E23").Text
+
+;Class I Final UAs
+abi1 := oSheetclassI.Worksheets(1).Range("D2").Text
+abi2 := oSheetclassI.Worksheets(1).Range("D3").Text
+abi3 := oSheetclassI.Worksheets(1).Range("D4").Text
+abi4 := oSheetclassI.Worksheets(1).Range("D5").Text
+abi5 := oSheetclassI.Worksheets(1).Range("D6").Text
+abi6 := oSheetclassI.Worksheets(1).Range("D7").Text
+abi7 := oSheetclassI.Worksheets(1).Range("D8").Text
+abi8 := oSheetclassI.Worksheets(1).Range("D9").Text
+abi9 := oSheetclassI.Worksheets(1).Range("D10").Text
+abi10 := oSheetclassI.Worksheets(1).Range("D11").Text
+abi11 := oSheetclassI.Worksheets(1).Range("D12").Text
+abi12 := oSheetclassI.Worksheets(1).Range("D13").Text
+abi13 := oSheetclassI.Worksheets(1).Range("D14").Text
+abi14 := oSheetclassI.Worksheets(1).Range("D15").Text
+abi15 := oSheetclassI.Worksheets(1).Range("D16").Text
+abi16 := oSheetclassI.Worksheets(1).Range("D17").Text
+abi17 := oSheetclassI.Worksheets(1).Range("D18").Text
+abi18 := oSheetclassI.Worksheets(1).Range("D19").Text
+abi19 := oSheetclassI.Worksheets(1).Range("D20").Text
+abi20 := oSheetclassI.Worksheets(1).Range("D21").Text
+abi21 := oSheetclassI.Worksheets(1).Range("D22").Text
+abi22 := oSheetclassI.Worksheets(1).Range("D23").Text
+
+;Other Assignment Class II
+oii1 := oSheetclassII.Worksheets(1).Range("E2").Text
+oii2 := oSheetclassII.Worksheets(1).Range("E3").Text
+oii3 := oSheetclassII.Worksheets(1).Range("E4").Text
+oii4 := oSheetclassII.Worksheets(1).Range("E5").Text
+oii5 := oSheetclassII.Worksheets(1).Range("E6").Text
+oii6 := oSheetclassII.Worksheets(1).Range("E7").Text
+oii7 := oSheetclassII.Worksheets(1).Range("E8").Text
+oii8 := oSheetclassII.Worksheets(1).Range("E9").Text
+oii9 := oSheetclassII.Worksheets(1).Range("E10").Text
+oii10 := oSheetclassII.Worksheets(1).Range("E11").Text
+oii11 := oSheetclassII.Worksheets(1).Range("E12").Text
+oii12 := oSheetclassII.Worksheets(1).Range("E13").Text
+oii13 := oSheetclassII.Worksheets(1).Range("E14").Text
+oii14 := oSheetclassII.Worksheets(1).Range("E15").Text
+oii15 := oSheetclassII.Worksheets(1).Range("E16").Text
+oii16 := oSheetclassII.Worksheets(1).Range("E17").Text
+oii17 := oSheetclassII.Worksheets(1).Range("E18").Text
+oii18 := oSheetclassII.Worksheets(1).Range("E19").Text
+oii19 := oSheetclassII.Worksheets(1).Range("E20").Text
+oii20 := oSheetclassII.Worksheets(1).Range("E21").Text
+oii21 := oSheetclassII.Worksheets(1).Range("E22").Text
+oii22 := oSheetclassII.Worksheets(1).Range("E23").Text
+
+;Class II Final UAs
+abii1 := oSheetclassII.Worksheets(1).Range("D2").Text
+abii2 := oSheetclassII.Worksheets(1).Range("D3").Text
+abii3 := oSheetclassII.Worksheets(1).Range("D4").Text
+abii4 := oSheetclassII.Worksheets(1).Range("D5").Text
+abii5 := oSheetclassII.Worksheets(1).Range("D6").Text
+abii6 := oSheetclassII.Worksheets(1).Range("D7").Text
+abii7 := oSheetclassII.Worksheets(1).Range("D8").Text
+abii8 := oSheetclassII.Worksheets(1).Range("D9").Text
+abii9 := oSheetclassII.Worksheets(1).Range("D10").Text
+abii10 := oSheetclassII.Worksheets(1).Range("D11").Text
+abii11 := oSheetclassII.Worksheets(1).Range("D12").Text
+abii12 := oSheetclassII.Worksheets(1).Range("D13").Text
+abii13 := oSheetclassII.Worksheets(1).Range("D14").Text
+abii14 := oSheetclassII.Worksheets(1).Range("D15").Text
+abii15 := oSheetclassII.Worksheets(1).Range("D16").Text
+abii16 := oSheetclassII.Worksheets(1).Range("D17").Text
+abii17 := oSheetclassII.Worksheets(1).Range("D18").Text
+abii18 := oSheetclassII.Worksheets(1).Range("D19").Text
+abii19 := oSheetclassII.Worksheets(1).Range("D20").Text
+abii20 := oSheetclassII.Worksheets(1).Range("D21").Text
+abii21 := oSheetclassII.Worksheets(1).Range("D22").Text
+abii22 := oSheetclassII.Worksheets(1).Range("D23").Text
+
+Gui, Add, Button, x16 y7 w100 h30 gp1 , %p1%
+Gui, Add, Button, x16 y47 w100 h30 gp2, %p2%
+Gui, Add, Button, x16 y87 w100 h30 gp3, %p3%
+Gui, Add, Button, x16 y127 w100 h30 gp4, %p4%
+Gui, Add, Button, x16 y167 w100 h30 gp5, %p5%
+Gui, Add, Button, x16 y207 w100 h30 gp6, %p6%
+Gui, Add, Button, x16 y247 w100 h30 gp7, %p7%
+Gui, Add, Button, x16 y287 w100 h30 gp8, %p8%
+Gui, Add, Button, x16 y327 w100 h30 gp9, %p9%
+Gui, Add, Button, x16 y367 w100 h30 gp10, %p10%
+Gui, Add, Button, x16 y407 w100 h30 gp11, %p11%
+Gui, Add, Button, x136 y7 w100 h30 gp12, %p12%
+Gui, Add, Button, x136 y47 w100 h30 gp13, %p13%
+Gui, Add, Button, x136 y87 w100 h30 gp14, %p14%
+Gui, Add, Button, x136 y127 w100 h30 gp15, %p15%
+Gui, Add, Button, x136 y167 w100 h30 gp16, %p16%
+Gui, Add, Button, x136 y207 w100 h30 gp17, %p17%
+Gui, Add, Button, x136 y247 w100 h30 gp18, %p18%
+Gui, Add, Button, x136 y287 w100 h30 gp19, %p19%
+Gui, Add, Button, x136 y327 w100 h30 gp20, %p20%
+Gui, Add, Button, x136 y367 w100 h30 gp21, %p21%
+Gui, Add, Button, x136 y407 w100 h30 gp22, %p22%
+Gui, Show, w258 h456, Labscreen Patients
+return
+
+p1:
+classIfunction := formatclassI(abi1,oi1)
+classIIfunction := formatclassII(abii1,oii1)
+StringSplit, classone, classIfunction, |
+StringSplit, classtwo, classIIfunction, |
+return
+
+p2:
+classIfunction := formatclassI(abi2,oi2)
+classIIfunction := formatclassII(abii2,oii2)
+StringSplit, classone, classIfunction, |
+StringSplit, classtwo, classIIfunction, |
+return
+
+p3:
+classIfunction := formatclassI(abi3,oi3)
+classIIfunction := formatclassII(abii3,oii3)
+StringSplit, classone, classIfunction, |
+StringSplit, classtwo, classIIfunction, |
+return
+
+p4:
+classIfunction := formatclassI(abi4,oi4)
+classIIfunction := formatclassII(abii4,oii4)
+StringSplit, classone, classIfunction, |
+StringSplit, classtwo, classIIfunction, |
+return
+
+p5:
+classIfunction := formatclassI(abi5,oi5)
+classIIfunction := formatclassII(abii5,oii5)
+StringSplit, classone, classIfunction, |
+StringSplit, classtwo, classIIfunction, |
+return
+
+p6:
+classIfunction := formatclassI(abi6,oi6)
+classIIfunction := formatclassII(abii6,oii6)
+StringSplit, classone, classIfunction, |
+StringSplit, classtwo, classIIfunction, |
+return
+
+p7:
+classIfunction := formatclassI(abi7,oi7)
+classIIfunction := formatclassII(abii7,oii7)
+StringSplit, classone, classIfunction, |
+StringSplit, classtwo, classIIfunction, |
+return
+
+p8:
+classIfunction := formatclassI(abi8,oi8)
+classIIfunction := formatclassII(abii8,oii8)
+StringSplit, classone, classIfunction, |
+StringSplit, classtwo, classIIfunction, |
+return
+
+p9:
+classIfunction := formatclassI(abi9,oi9)
+classIIfunction := formatclassII(abii9,oii9)
+StringSplit, classone, classIfunction, |
+StringSplit, classtwo, classIIfunction, |
+return
+
+p10:
+classIfunction := formatclassI(abi10,oi10)
+classIIfunction := formatclassII(abii10,oii10)
+StringSplit, classone, classIfunction, |
+StringSplit, classtwo, classIIfunction, |
+return
+
+p11:
+classIfunction := formatclassI(abi11,oi11)
+classIIfunction := formatclassII(abii11,oii11)
+StringSplit, classone, classIfunction, |
+StringSplit, classtwo, classIIfunction, |
+return
+
+p12:
+classIfunction := formatclassI(abi12,oi12)
+classIIfunction := formatclassII(abii12,oii12)
+StringSplit, classone, classIfunction, |
+StringSplit, classtwo, classIIfunction, |
+return
+
+p13:
+classIfunction := formatclassI(abi13,oi13)
+classIIfunction := formatclassII(abii13,oii13)
+StringSplit, classone, classIfunction, |
+StringSplit, classtwo, classIIfunction, |
+return
+
+p14:
+classIfunction := formatclassI(abi14,oi14)
+classIIfunction := formatclassII(abii14,oii14)
+StringSplit, classone, classIfunction, |
+StringSplit, classtwo, classIIfunction, |
+return
+
+p15:
+classIfunction := formatclassI(abi15,oi15)
+classIIfunction := formatclassII(abii15,oii15)
+StringSplit, classone, classIfunction, |
+StringSplit, classtwo, classIIfunction, |
+return
+
+p16:
+classIfunction := formatclassI(abi16,oi16)
+classIIfunction := formatclassII(abii16,oii16)
+StringSplit, classone, classIfunction, |
+StringSplit, classtwo, classIIfunction, |
+return
+
+p17:
+classIfunction := formatclassI(abi17,oi17)
+classIIfunction := formatclassII(abii17,oii17)
+StringSplit, classone, classIfunction, |
+StringSplit, classtwo, classIIfunction, |
+return
+
+p18:
+classIfunction := formatclassI(abi18,oi18)
+classIIfunction := formatclassII(abii18,oii18)
+StringSplit, classone, classIfunction, |
+StringSplit, classtwo, classIIfunction, |
+return
+
+p19:
+classIfunction := formatclassI(abi19,oi19)
+classIIfunction := formatclassII(abii19,oii19)
+StringSplit, classone, classIfunction, |
+StringSplit, classtwo, classIIfunction, |
+return
+
+p20:
+classIfunction := formatclassI(abi20,oi20)
+classIIfunction := formatclassII(abii20,oii20)
+StringSplit, classone, classIfunction, |
+StringSplit, classtwo, classIIfunction, |
+return
+
+p21:
+classIfunction := formatclassI(abi21,oi21)
+classIIfunction := formatclassII(abii21,oii21)
+StringSplit, classone, classIfunction, |
+StringSplit, classtwo, classIIfunction, |
+return
+
+p22:
+classIfunction := formatclassI(abi22,oi22)
+classIIfunction := formatclassII(abii22,oii22)
+StringSplit, classone, classIfunction, |
+StringSplit, classtwo, classIIfunction, |
+return
+
+
+#a::
+send_as400i(classone2)
+return
+
+#b::
+send_as400i(classone3)
+return
+
+#c::
+send_as400ii(classone5)
+return
+
+#r::
+send_as400ii(classtwo2)
+return
+
+#q::
+send_as400ii(classtwo3)
+return
+
+#w::
+send_as400ii(classtwo4)
+return
+
+::ds_sa1::
+Send, %classone1%
+return
+
+::ds_sa2::
+Send, %classtwo1%
+return
+
+
+
+
+
+
+GuiClose:
+ExitApp
