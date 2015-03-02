@@ -1,0 +1,220 @@
+;FUNCTION - Formats class I antibody results for cquence reports and AS400
+formatclassI(results,other)
+{
+StringSplit, antibodies, results, `,
+
+a := []
+b := []
+c := []
+bw := []
+locus_a = A
+locus_b = B 
+locus_c = Cw
+locus_bw = Bw
+
+Loop, %antibodies0%
+{
+	antibody := antibodies%A_Index%
+	StringLeft, locus, antibody, 1
+	StringLeft, locusbw, antibody, 2
+	if locus = A 
+		a.insert(antibody)
+	if locus = B
+		b.insert(antibody)
+	if locus = C
+		c.insert(antibody)
+	if locusbw = Bw
+		bw.insert(antibody)
+		
+}
+
+inda := a.MaxIndex()
+Loop % a.MaxIndex()
+{
+	ab := a[A_Index]
+	StringTrimLeft, num, ab, 1
+	locus_a .= num . ","
+}
+
+If !inda{
+	locus_a =
+	fa = 
+	}
+else
+	StringTrimRight, locus_a, locus_a, 1
+	fa = %locus_a%;
+
+
+indb := b.MaxIndex()
+Loop % b.MaxIndex()
+{
+	ab := b[A_Index]
+	StringTrimLeft, num, ab, 1
+	if num = w4
+		b.remove(ab)
+	else
+		locus_b .= num . ","
+}
+if !indb{
+	locus_b = 
+	fb = 
+	}	
+else
+	StringTrimRight, locus_b, locus_b, 1
+	fb = %locus_b%;
+
+indbw := bw.MaxIndex()
+Loop % bw.MaxIndex()
+{
+	ab := b[A_Index]
+	StringTrimLeft, num, ab, 2
+	locus_bw .= num . ","
+}
+
+if !indbw{
+	locus_bw = 
+	fbw = 
+	}
+else {
+	StringTrimRight, locus_bw, locus_bw, 1
+	fbw = %locus_bw%;
+	}
+
+indc := c.MaxIndex()
+Loop % c.MaxIndex()
+{
+	ab := c[A_Index]
+	StringTrimLeft, num, ab, 2
+	locus_c .= num . ","
+}
+if !indc {
+	locus_c = 
+	fc = 
+	}
+else {
+	StringTrimRight, locus_c, locus_c, 1
+	fc = %locus_c%;
+	}
+
+
+all = %fb%%fbw%%fa%%fc%`.%other%|%locus_a%|%locus_b%|%locus_bw%|%locus_c%|%other%
+
+
+Return %all%
+
+}
+
+;FUNCTION - Formats class II antibody results for cquence reports and AS400
+formatclassII(results,other)
+{
+StringSplit, antibodies, results, `,
+
+DR := []
+DQ := []
+DW := []
+DP := []
+locus_dr = DR
+locus_dq = DQ
+locus_dw = DR
+locus_dp = DP
+
+Loop, %antibodies0%
+{
+	antibody := antibodies%A_Index%
+	StringLeft, locus, antibody, 2
+	StringTrimLeft, serology, antibody, 2
+	if locus = DQ 
+		DQ.insert(antibody)
+	if (serology = 52) or (serology = 51) or (serology = 53)
+		DW.insert(antibody)
+	if locus = DR 
+		DR.insert(antibody)
+	if locus = DP
+		DP.insert(antibody)
+}
+
+inddr := DR.MaxIndex()
+Loop % DR.MaxIndex()
+{
+	ab := DR[A_Index]
+	StringTrimLeft, num, ab, 2
+	if (num = 52) or (num = 53) or (num = 51)
+		DR.remove(ab)
+	else
+		locus_dr .= num . ","
+}
+If !inddr
+	locus_dr = 
+else
+	StringTrimRight, locus_dr, locus_dr, 1
+
+inddq := DQ.MaxIndex()
+Loop % DQ.MaxIndex()
+{
+	ab := DQ[A_Index]
+	StringTrimLeft, num, ab, 2
+	locus_dq .= num . ","
+}
+If !inddq
+	locus_dq = 
+else
+	StringTrimRight, locus_dq, locus_dq, 1
+
+inddw := DW.MaxIndex()
+Loop % DW.MaxIndex()
+{
+	ab := DW[A_Index]
+	StringTrimLeft, num, ab, 2
+	locus_dw .= num . ","
+}
+If !inddw
+	locus_dw = 
+else
+	StringTrimRight, locus_dw, locus_dw, 1
+
+inddp := DP.MaxIndex()
+Loop % DP.MaxIndex()
+{
+	ab := DP[A_Index]
+	StringTrimLeft, num, ab, 2
+	locus_dp .= num . ","
+}
+If !inddp
+	locus_dp = 
+else
+	StringTrimRight, locus_dp, locus_dp, 1
+
+fdr = %locus_dr%;
+fdq = %locus_dq%;
+fdw = %locus_dw%;
+fdp = %locus_dp%;
+
+
+all = %fdr%%fdq%%fdw%%fdp%`.%other%|%locus_dr%|%locus_dq%|%locus_dw%|%locus_dp%
+
+Return %all%
+}
+
+;FUNCTION - Sends to As400
+send_as400i(locus){
+StringTrimLeft, as400, locus,1
+StringSplit, as400, as400, `,
+Loop %as4000%
+{
+	ab := as400%A_Index%
+	;MsgBox, %ab%
+	Send, %ab% {TAB}
+}
+}
+
+;FUNCTION - Sends to AS400 (class II)
+send_as400ii(locus){
+StringTrimLeft, as400, locus,2
+StringSplit, as400, as400, `,
+Loop %as4000%
+{
+	ab := as400%A_Index%
+	;MsgBox, %ab%
+	Send, %ab% {TAB}
+}
+}
