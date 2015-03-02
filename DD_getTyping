@@ -1,0 +1,152 @@
+oSheet := ComObjGet("C:\OLI FUSION\data\report\typing.xls")
+
+
+atype := oSheet.Worksheets(1).Range("K14").Text
+btype := oSheet.Worksheets(1).Range("K33").Text
+ctype := oSheet.Worksheets(1).Range("K52").Text
+cwtype := oSheet.Worksheets(1).Range("K50").Text
+drtype := oSheet.Worksheets(1).Range("K112").Text
+dqbtype := oSheet.Worksheets(1).Range("K92").Text
+dqatype := oSheet.Worksheets(1).Range("K89").Text
+dwtype := oSheet.Worksheets(1).Range("K131").Text
+dptype := oSheet.Worksheets(1).Range("K69").Text
+
+
+;FUNCTION
+aformat(type)
+{
+StringSplit, allele, type, %A_Space%, .  ; Omits periods.
+StringTrimLeft, locia1, allele1, 1
+StringTrimLeft, locia2, allele2, 1
+if (locia1 = locia2) 
+	locus = %locia1%
+else 
+	locus = %locia1%,%locia2%
+Return locus
+}
+
+;FUNCTION
+bformat(type)
+{
+StringSplit, allele, type, %A_Space%, .
+StringTrimRight, loci1, allele1, 5
+StringTrimRight, loci2, allele2, 5
+StringTrimLeft, locib1, loci1, 1
+StringTrimLeft, locib2, loci2, 1
+if (locib1 = locib2)
+	locusb = %locib1%
+else
+	locusb = %locib1%,%locib2%
+Return locusb
+}
+
+;FUNCTION
+bwformat(type)
+{
+StringSplit, allele, type, %A_Space%
+StringMid, locibw1, allele1, 7, 1
+StringMid, locibw2, allele2, 7, 1
+if (locibw1 = locibw2)
+	locusbw = %locibw1%
+else
+	locusbw = %locibw1%,%locibw2%
+Return locusbw
+}
+
+;FUNCTION
+cwformat(type1,type2)
+{
+StringSplit, allele, type1, %A_Space%
+StringTrimLeft, locic1, allele1, 2
+StringTrimLeft, locic2, allele2, 2
+StringSplit, cw, type2, %A_Space%
+StringMid, locic3, cw1, 3, 2
+StringSplit, cw, type2, %A_Space%
+StringMid, locic4, cw2, 3, 2
+if locic1 is space
+	locic1 = %locic3%
+if locic2 is space
+	locic2 = %locic4%
+if (locic1 = locic2)
+	locusc = %locic1%
+else
+	locusc = %locic1%,%locic2%
+Return locusc
+}
+
+;FUNCTION
+dformat(type)
+{
+StringSplit, allele, type, %A_Space%
+StringTrimLeft, locic1, allele1, 2
+StringTrimLeft, locic2, allele2, 2
+if (locic1 = "B1_0")
+	locic1 = 2
+if (locic2 = "B1_0")
+	locic2 = 2
+if (locic1 = locic2)
+	locusc = %locic1%
+else
+	locusc = %locic1%,%locic2%
+Return locusc
+}
+
+;FUNCTION
+dqaformat(type)
+{
+StringSplit, allele, type, `n,`r
+StringSplit, loci, allele1, %A_Space%
+StringMid, dqa1, loci1, 7, 1
+StringMid, dqa2, loci2, 7, 1
+if (dqa1 = dqa2)
+	locusdqa = %dqa1%
+else
+	locusdqa = %dqa1%,%dqa2%
+Return locusdqa
+}
+
+;FUNCTION
+dpaformat(type)
+{
+StringSplit, allele, type, `n,`r
+StringSplit, loci, allele1, %A_Space%
+StringMid, dpa1, loci1, 6, 5
+StringMid, dpa2, loci2, 6, 5
+if (dpa1 = dpa2)
+	locusdpa = %dpa1%
+else
+	locusdpa = %dpa1%,%dpa2%
+Return locusdpa
+}
+
+;FUNCTION
+dpbformat(type)
+{
+StringSplit, allele, type, `n,`r
+StringSplit, loci, allele2, %A_Space%
+StringMid, dpb1, loci1, 6, 6
+StringMid, dpb2, loci2, 6, 6
+if (dpb1 = dpb2)
+	locusdpb = %dpb1%
+else
+	locusdpb = %dpb1%,%dpb2%
+Return locusdpb
+}
+
+locus_a := aformat(atype)
+locus_b := bformat(btype)
+locus_bw := bwformat(btype)
+locus_c := cwformat(ctype,cwtype)
+locus_dr := dformat(drtype)
+locus_dqb := dformat(dqbtype)
+locus_dw := dformat(dwtype)
+locus_dqa := dqaformat(dqatype)
+locus_dpa := dpaformat(dptype)
+locus_dpb := dpbformat(dptype)
+
+
+MsgBox, %locus_a%`n%locus_b%`n%locus_bw%`n%locus_c%`n%locus_dr%`n%locus_dqb%`n%locus_dw%`n%locus_dqa%`n%locus_dpa%`n%locus_dpb%
+
+
+
+ExitApp
