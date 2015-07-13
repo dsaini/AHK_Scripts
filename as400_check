@@ -1,0 +1,89 @@
+IfExist, T:\Personal DS\AHK\AS400files\Summary.txt
+	FileDelete, T:\Personal DS\AHK\AS400files\Summary.txt
+
+FileSelectFile, filepath, , , Open a file, Labscreen Templates (*.xlsm, *.xls)
+X1 := ComObjGet(filepath)
+FormatTime, assaydate,, yyyy-MM-dd
+
+n = 2
+col = N
+col2 = M
+Loop 22 
+{
+	mrn%A_Index% := X1.Worksheets(1).Range(col n).Text
+	ptname%A_Index% := X1.Worksheets(1).Range(col2 n).Text
+	n++
+}
+
+#r::
+count = 1
+Loop
+{
+	mrn := mrn%count%
+	ptname := ptname%count%
+	if (mrn = "Negative") or !mrn
+	{
+		Run, print T:\Personal DS\AHK\AS400files\Summary.txt
+		ExitApp
+	}
+	WinWait, as400.rsf - Reflection - IBM 5250 Terminal - \\Remote, 
+	IfWinNotActive, as400.rsf - Reflection - IBM 5250 Terminal - \\Remote, , WinActivate, as400.rsf - Reflection - IBM 5250 Terminal - \\Remote, 
+	WinWaitActive, as400.rsf - Reflection - IBM 5250 Terminal - \\Remote, 
+	;WinWait, AS400.rsf - Reflection - IBM 5250 Terminal - \\Remote, 
+	;IfWinNotActive, AS400.rsf - Reflection - IBM 5250 Terminal - \\Remote, , WinActivate, AS400.rsf - Reflection - IBM 5250 Terminal - \\Remote, 
+	;WinWaitActive, AS400.rsf - Reflection - IBM 5250 Terminal - \\Remote, 
+	Send, 02%mrn%
+	Sleep, 750
+	Send, {Enter}
+	Sleep, 1750
+	Send, {CTRLDOWN}a{CTRLUP}{CTRLDOWN}c{CTRLUP}
+	Sleep, 750
+	Send, {F2}
+	FileAppend, %Clipboard%, T:\Personal DS\AHK\AS400files\SA_%mrn%.txt
+	FileRead, asprofile, T:\Personal DS\AHK\AS400files\SA_%mrn%.txt
+	StringSplit, aslines, asprofile, `n
+	StringSplit, ptinfo, aslines3, %A_Space%
+	StringSplit, currentsample, aslines15, %A_Space%
+	StringSplit, curr, aslines15
+	pra1 = %curr38%%curr39%
+	pra2 = %curr44%%curr45%
+	cs_sid = %currentsample12%-%currentsample13%
+	cs_date = %currentsample16%-%currentsample17%-%currentsample18%
+	FileAppend, %mrn%|%ptname%|%cs_sid%|%cs_date%|%pra1%|%pra2%`n%aslines11%`n`n, T:\Personal DS\AHK\AS400files\Summary.txt
+	Sleep, 1000
+	FileDelete, T:\Personal DS\AHK\AS400files\SA_%mrn%.txt
+
+	count += 1
+	if (count > 22) 
+	{
+		Run, print T:\Personal DS\AHK\AS400files\Summary.txt
+		ExitApp
+	}
+	
+}
+return
+
+#c::
+WinWait, AS400.rsf - Reflection - IBM 5250 Terminal - \\Remote, 
+IfWinNotActive, AS400.rsf - Reflection - IBM 5250 Terminal - \\Remote, , WinActivate, AS400.rsf - Reflection - IBM 5250 Terminal - \\Remote, 
+WinWaitActive, AS400.rsf - Reflection - IBM 5250 Terminal - \\Remote, 
+MouseClick, left,  307,  13
+Sleep, 100
+Send, {ALTDOWN}d{ALTUP}
+MouseClick, left,  100,  31
+Sleep, 100
+MouseClick, left,  43,  10
+Sleep, 100
+WinWait, Session Setup - \\Remote, 
+IfWinNotActive, Session Setup - \\Remote, , WinActivate, Session Setup - \\Remote, 
+WinWaitActive, Session Setup - \\Remote, 
+MouseClick, left,  193,  218
+Sleep, 100
+Send, hla05{ENTER}
+return
+
+
+
+
+
+
