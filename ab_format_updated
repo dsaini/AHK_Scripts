@@ -1,0 +1,543 @@
+/*
+ab_format update v1.1
+CHANGELOG 4/23/15:
+-Formatted the code itself; added comments/version number/changelog
+-Optimized code for sorting and formatting class I and II antibody functions 
+	(removed dictionary objects)
+-Fixed code in PRA formatting function
+	(previous version did not round the PRA number correctly)
+*/
+
+formatclassI(results, other) 
+{
+;------------------CLASS I ANTIBODY SORTING-----------------------;
+StringSplit, antibodies, results, `, 
+Loop, %antibodies0%
+{
+	antibody := antibodies%A_Index%
+	StringLeft, locus, antibody, 1
+	StringLeft, locusbw, antibody, 2
+	if (locus = "A") {
+		locus_a .= antibody . ","
+		;order .= locus
+	}
+	if (locus = "B") {
+		locus_b .= antibody . ","
+		;order .= locus
+	}
+	if (locus = "C") {
+		locus_c .= antibody . ","
+		;order .= locus
+	}
+	if (locusbw = "Bw") {
+		locus_bw .= antibody . ","
+		;bw = 1
+	}
+}
+;-----------------------------------------------------------------;
+
+;-----------------------FORMAT B/Bw ANTIBODIES--------------------;
+StringTrimRight, locus_b, locus_b, 1
+StringSplit, b, locus_b, `,
+Loop, %b0% {
+	ab := b%A_Index%
+	StringTrimLeft, ab, ab, 1
+	b_antigens .= ab . ","
+}
+StringReplace, b_antigens, b_antigens, w4
+StringReplace, b_antigens, b_antigens, w6 
+StringTrimRight, b_antigens, b_antigens, 1
+b_len := StrLen(b_antigens)
+If (b_len > 0) {
+	b_antigens = B%b_antigens%
+	b_locus = %b_antigens%;
+	}	
+else
+	b_antigens = 
+
+StringTrimRight, locus_bw, locus_bw, 1
+bw_len := StrLen(locus_bw)
+If (bw_len > 0) {
+	bw_antigen = Bw%locus_bw%
+	bw_locus = %locus_bw%;
+	}
+else
+	bw_antigen = 
+;----------------------------------------------------------------;
+
+;------------------------FORMAT A ANTIBODIES---------------------;
+StringTrimRight, locus_a, locus_a, 1
+StringSplit, a, locus_a, `,
+Loop, %a0% {
+	ab := a%A_Index%
+	StringTrimLeft, ab, ab, 1
+	a_antigens .= ab . ","
+}
+StringTrimRight, a_antigens, a_antigens, 1
+a_len := StrLen(a_antigens)
+If (a_len > 0) {
+	a_antigens = A%a_antigens%
+	a_locus = %a_antigens%;
+	}
+else
+	a_antigens = 
+;-----------------------------------------------------------------;
+
+;------------------------FORMAT Cw ANTIBODIES---------------------;
+StringTrimRight, locus_c, locus_c, 1
+StringSplit, cw, locus_c, `,
+Loop, %cw0% {
+	ab := cw%A_Index%
+	StringTrimLeft, ab, ab, 2
+	c_antigens .= ab . ","
+}
+StringTrimRight, c_antigens, c_antigens, 1
+c_len := StrLen(c_antigens)
+If (c_len > 0) {
+	c_antigens = Cw%c_antigens%
+	c_locus = %c_antigens%;
+	}
+else
+	c_antigens = 
+;------------------------------------------------------------------;
+
+;-------------------ANTIBODY ORDER---------------------------------;
+/*
+countA = 0 
+if (bw = 1)
+	countB = 1
+else
+	countB = 0
+countC = 0  
+Loop, Parse, order
+{
+	letter = %A_LoopField%
+	if (letter = "A")
+		countA++
+	if (letter = "B")
+		countB++
+	if (letter = "C")
+		countC++
+}
+
+firstLetter := SubStr(order,1,1)
+If (firstLetter = "A") {
+	countx := countA + 1
+	secondLetter := SubStr(order,countx,1)
+}
+If (firstLetter = "B") {
+	countx := countB + 1 
+	secondLetter := SubStr(order,countx,1)
+}
+If (firstLetter = "C") {
+	countx := countC + 1 
+	secondLetter := SubStr(order,countx,1)
+}
+If (secondLetter = "A") {
+	countx := countx + countA + 1
+	thirdLetter := SubStr(order,countx,1)
+}
+If (secondLetter = "B") {
+	countx := countx + countB + 1 
+	thirdLetter := SubStr(order,countx,1)
+}
+If (secondLetter = "C") {
+	countx := countx + countC + 1 
+	thirdLetter := SubStr(order,countx,1)
+}
+ab_order = %firstLetter%%secondLetter%%thirdLetter%
+
+;Possible orders - ABC, ACB, BCA, BAC, CAB, CBA, AC, AB, BC, BA, CA, CB
+
+	If (ab_order = "ABC" or ab_order = "AB" or ab_order = "AC" or ab_order = "A")
+		classIa = %a_locus%%b_locus%%bw_locus%%c_locus%. %other%
+	If (ab_order = "ACB")
+		classIa = %a_locus%%c_locus%%b_locus%%bw_locus%. %other%
+	If (ab_order = "BCA" or ab_order = "BC" or ab_order = "BA" or ab_order = "B")
+		classIa = %b_locus%%bw_locus%%c_locus%%a_locus%. %other%
+	If (ab_order = "BAC")
+		classIa = %b_locus%%bw_locus%%a_locus%%c_locus%. %other%
+	If (ab_order = "CAB" or ab_order = "CA" or ab_order = "CB" or ab_order = "C")
+		classIa = %c_locus%%a_locus%%b_locus%%bw_locus%. %other%
+	If (ab_order = "CBA")
+		classIa = %c_locus%%b_locus%%bw_locus%%a_locus%. %other%
+	else
+		classIa = %b_locus%%bw_locus%%a_locus%%c_locus%. %other%
+*/
+
+;--------------------------------------------------------------------;
+
+;--------------FINAL CLASS I RESULT FORMATTED----------------------;
+If (results = "Negative")
+	classI = Negative. No Class I DSA detected.
+else {
+	classIa = %b_locus%%bw_locus%%a_locus%%c_locus%. %other%
+	StringReplace, classIa, classIa, `;.,., All
+	StringReplace, classIa, classIa, `,;,;,All
+	classI = %classIa%|%b_antigens%|%locus_bw%|%a_antigens%|%c_antigens%
+	}
+return %classI%
+;------------------------------------------------------------------;
+}
+
+formatclassII(results, other)
+{
+;CLASS II ANTIBODY SORTING------------------------------------------
+StringSplit, antibodies, results, `,
+Loop, %antibodies0%
+{
+	antibody := antibodies%A_Index%
+	StringLeft, locus, antibody, 2
+	StringTrimLeft, serology, antibody, 2
+	if (locus = "DQ") 
+		locus_dq .= antibody . ","
+	if (serology = 52) or (serology = 51) or (serology = 53)
+		locus_dw .= antibody . ","
+	if (locus = "DR") 
+		locus_dr .= antibody . "," 
+	if (locus = "DP")
+		locus_dp .= antibody ","
+}
+;------------------------------------------------------------------
+
+;FORMAT DR ANTIBODIES----------------------------------------------
+StringReplace, locus_dr, locus_dr, DR51`,,,All
+StringReplace, locus_dr, locus_dr, DR52`,,,All
+StringReplace, locus_dr, locus_dr, DR53`,,,All
+StringReplace, locus_dr, locus_dr, DR51.,,All
+StringReplace, locus_dr, locus_dr, DR52.,,All
+StringReplace, locus_dr, locus_dr, DR53.,,All
+StringReplace, locus_dr, locus_dr, DR51,,All
+StringReplace, locus_dr, locus_dr, DR52,,All
+StringReplace, locus_dr, locus_dr, DR53,,All
+StringTrimRight, locus_dr, locus_dr, 1
+StringSplit, dr, locus_dr, `,
+Loop, %dr0% {
+	ab := dr%A_Index%
+	StringTrimLeft, ab, ab, 2
+	dr_antigens .= ab . ","
+}
+StringTrimRight, dr_antigens, dr_antigens, 1
+dr_len := StrLen(dr_antigens)
+If (dr_len > 0) {
+	dr_antigens = DR%dr_antigens%
+	dr_locus = %dr_antigens%;
+	}
+else
+	dr_antigens = 
+;--------------------------------------------------------------------
+
+;FORMAT DRw ANTIBODIES-----------------------------------------------
+StringTrimRight, locus_dw, locus_dw, 1
+StringSplit, dw, locus_dw, `,
+Loop, %dw0% {
+	ab := dw%A_Index%
+	StringTrimLeft, ab, ab, 2
+	dw_antigens .= ab . ","
+}
+StringTrimRight, dw_antigens, dw_antigens, 1
+dw_len := StrLen(dw_antigens)
+If (dw_len > 0) {
+	dw_antigens = DR%dw_antigens%
+	dw_locus = %dw_antigens%;
+	}
+else
+	dw_antigens = 
+;--------------------------------------------------------------------
+
+;FORMAT DQ ANTIBODIES------------------------------------------------
+StringTrimRight, locus_dq, locus_dq, 1
+StringSplit, dq, locus_dq, `,
+Loop, %dq0% {
+	ab := dq%A_Index%
+	StringTrimLeft, ab, ab, 2
+	dq_antigens .= ab . ","
+}
+StringTrimRight, dq_antigens, dq_antigens, 1
+dq_len := StrLen(dq_antigens)
+If (dq_len > 0) {
+	dq_antigens = DQ%dq_antigens%
+	dq_locus = %dq_antigens%;
+	}
+else
+	dq_antigens = 
+;--------------------------------------------------------------------
+
+;FORMAT DP ANTIBODIES------------------------------------------------
+StringTrimRight, locus_dp, locus_dp, 1
+StringSplit, dp, locus_dp, `,
+Loop, %dp0% {
+	ab := dp%A_Index%
+	StringTrimLeft, ab, ab, 2
+	dp_antigens .= ab . ","
+}
+StringTrimRight, dp_antigens, dp_antigens, 1
+dp_len := StrLen(dp_antigens)
+If (dp_len > 0) {
+	dp_antigens = DP%dp_antigens%
+	dp_locus = %dp_antigens%;
+	}
+else
+	dp_antigens = 
+;--------------------------------------------------------------------
+
+;FINAL CLASS II RESULT FORMATTED-------------------------------------
+If (results = "Negative")
+	classII = Negative. No Class II DSA detected.
+else {
+	classIIa = %dr_locus%%dq_locus%%dw_locus%%dp_locus%. %other%
+	StringReplace, classIIa, classIIa, `;.,.,All
+	classII = %classIIa%|%dr_antigens%|%dq_antigens%|%dw_antigens%|%dp_antigens%
+	}
+
+return %classII%
+;--------------------------------------------------------------------
+}
+
+
+;--------------------FUNCTION - Formatting other assigment results for as400 entry---------------
+format_other(ab1,ab2) {
+ab1_len = StrLen(ab1)
+ab2_len = StrLen(ab2)
+dot1 := Substr(ab1, ab1_len, 1)
+dot2 := Substr(ab2, ab2_len, 1)
+if (dot1 = ".")
+	StringTrimRight, ab1, ab1, 1
+if (dot2 = ".")
+	StringTrimRight, ab2, ab2, 1
+if !ab2 or !ab1
+	all_other = %ab1%%ab2%
+else 
+	all_other = %ab1%.%ab2%
+
+weaks = 
+allelics = 
+wkalcs = 
+StringSplit, oa, all_other, ., %A_Space%
+Loop, %oa0%
+{
+	oas := oa%A_Index%
+	StringSplit, ag, oas, :
+	if (ag1 = "Allelic")
+		allelics .= ag2 . ";"
+	if (ag1 = "Weak")
+		weaks .= ag2 . ";"
+	if (ag1 = "Weak Allelic")
+		wkalcs .= ag2 . ";"
+}
+wk_len := StrLen(weaks)
+alc_len := StrLen(allelics)
+wkalc_len := StrLen(wkalcs)
+weaks := RegExReplace(weaks,";",".",,1,wk_len)
+allelics := RegExReplace(allelics,";",".",,1,alc_len)
+wkalcs := RegExReplace(wkalcs,";",".",,1,wkalc_len)
+final_other = %allelics% %weaks% %wkalcs%
+StringSplit, final, final_other, %A_Space%
+if !final1
+	final1 =
+else
+	final1 = ALC:%final1%
+if !final2
+	final2 =
+else
+	final2 = WK:%final2%
+if !final3
+	final3 =
+else
+	final3 = WKALC:%final3%
+
+all_final_other = %final1%%final2%%final3%
+final_len := StrLen(all_final_other)
+
+if (final_len > 37)
+{
+	trim_len := final_len - 37
+	StringTrimRight, final_short, all_final_other, trim_len
+}
+else {
+	final_short = %all_final_other%
+}
+
+supreme_final_other = %all_final_other%|%final_short%
+
+if (!ab1 and !ab2) {
+	supreme_final_other = |
+}
+
+
+Return %supreme_final_other%
+
+}
+
+;--------------------FUNCTION - Sends all AB data in As400 UA Window-----------------------
+send_as400i(a,b,c,bw,dr,dq,dw,oa) {
+StringTrimLeft, a, a, 1
+StringTrimLeft, b, b, 1
+StringTrimLeft, c, c, 2
+StringTrimLeft, bw, bw, 2
+StringTrimLeft, dr, dr, 2
+StringTrimLeft, dq, dq, 2
+StringTrimLeft, dw, dw, 2
+StringSplit, c, c, `,
+StringSplit, a, a, `,
+StringSplit, b, b, `,
+StringSplit, dr, dr, `,
+StringSplit, dq, dq, `,
+StringSplit, dw, dw, `,
+a_fields = 40
+b_fields = 59
+c_fields = 17
+dr_fields = 21
+dq_fields = 9
+
+a_total = %a0%
+b_total = %b0%
+c_total = %c0%
+dr_total = %dr0%
+dq_total = %dq0%
+
+a_tabs := a_fields - a_total
+b_tabs := b_fields - b_total
+c_tabs := c_fields - c_total 
+dr_tabs := dr_fields - dr_total
+dq_tabs := dq_fields - dq_total
+
+
+oa_len := StrLen(oa)
+/*
+WinWait, AS400.rsf - Reflection - IBM 5250 Terminal - \\Remote, 
+IfWinNotActive, AS400.rsf - Reflection - IBM 5250 Terminal - \\Remote, , WinActivate, AS400.rsf - Reflection - IBM 5250 Terminal - \\Remote, 
+WinWaitActive, AS400.rsf - Reflection - IBM 5250 Terminal - \\Remote, 
+*/
+If (oa_len = 37)
+	Send, %oa%
+else
+	Send, %oa%{TAB}
+
+
+Loop %a0%
+{
+	ab := a%A_Index%
+	Send, %ab%{TAB}
+}
+
+Loop %a_tabs%
+{
+	Send,{TAB}
+}
+Loop %b0%
+{
+	ab := b%A_Index%
+	Send, %ab%{TAB}
+}
+Loop %b_tabs%
+{
+	Send,{TAB}
+}
+Loop %c0%
+{
+	ab := c%A_Index%
+	Send, %ab%{TAB}
+}
+Loop %c_tabs%
+{
+	Send,{TAB}
+}
+Send, %bw%{TAB}
+Loop %dr0%
+{
+	ab := dr%A_Index%
+	Send, %ab%{TAB}
+}
+Loop %dr_tabs%
+{
+	Send, {TAB}
+}
+Loop %dq0%
+{
+	ab := dq%A_Index%
+	Send, %ab%{TAB}
+}
+Loop %dq_tabs%
+{
+	Send, {TAB}
+}
+Loop %dw0%
+{
+	ab := dw%A_Index%
+	Send, %ab%{TAB}
+}
+
+}
+
+;-------------------------FUNCTION - Date format----------------------
+date_format(date){
+StringTrimLeft, year, date, 8
+StringMid, day, date, 5, 2
+StringTrimRight, monthname, date, 9
+If (monthname = "Jan")
+	month = 01
+If (monthname = "Feb")
+	month = 02
+If (monthname = "Mar")
+	month = 03
+If (monthname = "Apr")
+	month = 04
+If (monthname = "May")
+	month = 05
+If (monthname = "Jun")
+	month = 06
+If (monthname = "Jul")
+	month = 07
+If (monthname = "Aug")
+	month = 08
+If (monthname = "Sep")
+	month = 09
+If (monthname = "Oct")
+	month = 10
+If (monthname = "Nov")
+	month = 11
+If (monthname = "Dec")
+	month = 11
+parsed_date = %year%-%month%-%day%
+return %parsed_date%
+}
+
+
+;---------------------FUNCTION - PRA Formatting-----------------------
+pra_format(pra){
+If !pra
+	rounded := 3
+else {
+	StringSplit, num, pra, %A_Space%
+	If (num1 > 0.00) and (num1 < 3.00)
+		rounded := 3
+	else {
+		StringSplit, decimal, num1, .
+		d1 := SubStr(decimal2,1,1)
+		If (d1 = 0)
+			StringTrimLeft, decimal2, decimal2, 1
+		If (decimal2 >= 50) 
+			rounded := Ceil(num1)
+		If (decimal2 < 50) 
+			rounded := Floor(num1)
+	}
+ }
+Return %rounded%
+}
+
+;---------------------FUNCTION - AS400 PRA entry-------------------------
+sendAS400_pra(a,b) {
+	if (a < 10) && (b < 10) {
+		Send, {TAB}{TAB}{TAB}{TAB}{TAB}{TAB}{TAB}{TAB}{TAB}{RIGHT}{RIGHT}%a%{RIGHT}{RIGHT}%b%x
+	}
+	if (a < 10) && (b > 10) {
+		Send, {TAB}{TAB}{TAB}{TAB}{TAB}{TAB}{TAB}{TAB}{TAB}{RIGHT}{RIGHT}%a%{RIGHT}%b%x
+	}
+	if (a > 10) && (b < 10) {
+		Send, {TAB}{TAB}{TAB}{TAB}{TAB}{TAB}{TAB}{TAB}{TAB}{RIGHT}%a%{RIGHT}{RIGHT}%b%x
+	}
+	if (a > 10) && (b > 10) {
+		Send, {TAB}{TAB}{TAB}{TAB}{TAB}{TAB}{TAB}{TAB}{TAB}{RIGHT}%a%{RIGHT}%b%x
+	}
+}
