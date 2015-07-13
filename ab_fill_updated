@@ -1,0 +1,432 @@
+/*
+ab_fill update v1.1
+CHANGELOG 5/10/15:
+-Made the buttons bigger
+-Integrated Prev_report finder script 
+-Added button to display the list of keyboard shortcuts
+-Added button to reset / empty all variables / reload script.
+*/
+
+
+#Include T:\Personal DS\AHK3\Scripts\abFormat_update1.ahk ; Contains all functions utilized in this script.
+
+oSheetclassI := ComObjGet("C:\OLI FUSION\data\report\abi.xls") ; Filepath of exported Fusion file for Class I results
+oSheetclassII := ComObjGet("C:\OLI FUSION\data\report\abii.xls") ; Filepath of exported Fusion file for Class II results
+oRange1 := oSheetclassI.Worksheets(1).UsedRange ; 
+oRange2 := oSheetclassII.Worksheets(1).UsedRange
+m := ComObjMissing()
+FormatTime, assaydate,, yyyy-MM-dd
+FormatTime, date ,, M/dd/yy
+clipboard = %date%_DS
+
+n = 1
+Loop, 23 ; This loops fills the variables with the information in the excel files. (change the number to increase number of patients; standard is 22 patients in each run)
+{
+	mrn%A_Index% := oRange1.Find["Patient", m, m, xlWhole:=true].offset(n,0).text
+	sdi%A_Index% := oRange1.Find["Sample`nDate", m, m, xlWhole:=true].offset(n,0).text ; Searches the excel file for the term "Sample Date" and gets the value from the offset cell
+	p%A_Index% := oRange1.Find["Sample", m, m, xlWhole:=true].offset(n,0).text
+	sid%A_Index% := SubStr(p%A_Index%,1,8)
+	prai%A_Index% := pra_format(oRange1.Find["Class I`nDonor`nPRA", m, m, xlWhole:=true].offset(n,0).text)
+	praii%A_Index% := pra_format(oRange2.Find["Class II`nDonor`nPRA", m, m, xlWhole:=true].offset(n,0).text)
+	oi%A_Index% := oRange1.Find["Other`nAssignment", m, m, xlWhole:=true].offset(n,0).text
+	oii%A_Index% := oRange2.Find["Other`nAssignment", m, m, xlWhole:=true].offset(n,0).text
+	abi%A_Index% := oRange1.Find["Class I`nFinal", m, m, xlWhole:=true].offset(n,0).text
+	abii%A_Index% := oRange2.Find["Class II`nFinal", m, m, xlWhole:=true].offset(n,0).text
+	n++
+}
+
+;Generates a GUI with Patient ID buttons
+Gui, Add, Button, x6 y7 w270 h50 cWhite vPushed gp1 , %p1%
+Gui, Add, Button, x6 y67 w270 h50 gp2, %p2%
+Gui, Add, Button, x6 y127 w270 h50 gp3, %p3%
+Gui, Add, Button, x6 y187 w270 h50 gp4, %p4%
+Gui, Add, Button, x6 y247 w270 h50 gp5, %p5%
+Gui, Add, Button, x6 y307 w270 h50 gp6, %p6%
+Gui, Add, Button, x6 y367 w270 h50 gp7, %p7%
+Gui, Add, Button, x6 y427 w270 h50 gp8, %p8%
+Gui, Add, Button, x6 y487 w270 h50 gp9, %p9%
+Gui, Add, Button, x6 y547 w270 h50 gp10, %p10%
+Gui, Add, Button, x6 y607 w270 h50 gp11, %p11%
+Gui, Add, Button, x6 y667 w270 h50 gp12, %p12%
+Gui, Add, Button, x286 y7 w270 h50 gp13, %p13%
+Gui, Add, Button, x286 y67 w270 h50 gp14, %p14%
+Gui, Add, Button, x286 y127 w270 h50 gp15, %p15%
+Gui, Add, Button, x286 y187 w270 h50 gp16, %p16%
+Gui, Add, Button, x286 y247 w270 h50 gp17, %p17%
+Gui, Add, Button, x286 y307 w270 h50 gp18, %p18%
+Gui, Add, Button, x286 y367 w270 h50 gp19, %p19%
+Gui, Add, Button, x286 y427 w270 h50 gp20, %p20%
+Gui, Add, Button, x286 y487 w270 h50 gp21, %p21%
+Gui, Add, Button, x286 y547 w270 h50 gp22, %p22%
+Gui, Add, Button, x286 y607 w270 h50 greset, Reset 
+Gui, Add, Button, x286 y667 w270 h50 gshortcuts, See Keyboard Shortcuts
+Gui, Show, w561 h721, M.A.C.I.E. ;Macro for Cquence and AS400 Information Entry
+return
+
+;Each button has the same order of functions.
+p1:
+classIfunction := formatclassI(abi1,oi1)  
+classIIfunction := formatclassII(abii1,oii1) ; Formats class II results and stores it into classIIfunction variable
+StringSplit, classone, classIfunction, |
+StringSplit, classtwo, classIIfunction, |
+other_assignment := format_other(oi1,oii1)
+StringSplit, other_assignment, other_assignment, |
+dateI := date_format(sdi1) ; The date in the excel files is in Mar 23, 2015 format. This function converts it into 2015-03-23 format
+sid = %sid1% ; Stores the Sample ID
+pra1 = %prai1% ; Stores class I PRA 
+pra2 = %praii1%
+mrn = %mrn1%
+return
+
+p2:
+classIfunction := formatclassI(abi2,oi2)
+classIIfunction := formatclassII(abii2,oii2)
+StringSplit, classone, classIfunction, |
+StringSplit, classtwo, classIIfunction, |
+other_assignment := format_other(oi2,oii2)
+StringSplit, other_assignment, other_assignment, |
+dateI := date_format(sdi2)
+sid = %sid2%
+pra1 = %prai2%
+pra2 = %praii2%
+mrn = %mrn2%
+return
+
+p3:
+classIfunction := formatclassI(abi3,oi3)
+classIIfunction := formatclassII(abii3,oii3)
+StringSplit, classone, classIfunction, |
+StringSplit, classtwo, classIIfunction, |
+other_assignment := format_other(oi3,oii3)
+StringSplit, other_assignment, other_assignment, |
+dateI := date_format(sdi3)
+sid = %sid3%
+pra1 = %prai3%
+pra2 = %praii3%
+mrn = %mrn3%
+return
+
+p4:
+classIfunction := formatclassI(abi4,oi4)
+classIIfunction := formatclassII(abii4,oii4)
+StringSplit, classone, classIfunction, |
+StringSplit, classtwo, classIIfunction, |
+other_assignment := format_other(oi4,oii4)
+StringSplit, other_assignment, other_assignment, |
+dateI := date_format(sdi4)
+sid = %sid4%
+pra1 = %prai4%
+pra2 = %praii4%
+mrn = %mrn4%
+return
+
+p5:
+classIfunction := formatclassI(abi5,oi5)
+classIIfunction := formatclassII(abii5,oii5)
+StringSplit, classone, classIfunction, |
+StringSplit, classtwo, classIIfunction, |
+other_assignment := format_other(oi5,oii5)
+StringSplit, other_assignment, other_assignment, |
+dateI := date_format(sdi5)
+sid = %sid5%
+pra1 = %prai5%
+pra2 = %praii5%
+mrn = %mrn5%
+return
+
+p6:
+classIfunction := formatclassI(abi6,oi6)
+classIIfunction := formatclassII(abii6,oii6)
+StringSplit, classone, classIfunction, |
+StringSplit, classtwo, classIIfunction, |
+other_assignment := format_other(oi6,oii6)
+StringSplit, other_assignment, other_assignment, |
+dateI := date_format(sdi6)
+sid = %sid6%
+pra1 = %prai6%
+pra2 = %praii6%
+mrn = %mrn6%
+return
+
+p7:
+classIfunction := formatclassI(abi7,oi7)
+classIIfunction := formatclassII(abii7,oii7)
+StringSplit, classone, classIfunction, |
+StringSplit, classtwo, classIIfunction, |
+other_assignment := format_other(oi7,oii7)
+StringSplit, other_assignment, other_assignment, |
+dateI := date_format(sdi7)
+sid = %sid7%
+pra1 = %prai7%
+pra2 = %praii7%
+mrn = %mrn7%
+return
+
+p8:
+classIfunction := formatclassI(abi8,oi8)
+classIIfunction := formatclassII(abii8,oii8)
+StringSplit, classone, classIfunction, |
+StringSplit, classtwo, classIIfunction, |
+other_assignment := format_other(oi8,oii8)
+StringSplit, other_assignment, other_assignment, |
+dateI := date_format(sdi8)
+sid = %sid8%
+pra1 = %prai8%
+pra2 = %praii8%
+mrn = %mrn8%
+return
+
+p9:
+classIfunction := formatclassI(abi9,oi9)
+classIIfunction := formatclassII(abii9,oii9)
+StringSplit, classone, classIfunction, |
+StringSplit, classtwo, classIIfunction, |
+other_assignment := format_other(oi9,oii9)
+StringSplit, other_assignment, other_assignment, |
+dateI := date_format(sdi9)
+sid = %sid9%
+pra1 = %prai9%
+pra2 = %praii9%
+mrn = %mrn9%
+return
+
+p10:
+classIfunction := formatclassI(abi10,oi10)
+classIIfunction := formatclassII(abii10,oii10)
+StringSplit, classone, classIfunction, |
+StringSplit, classtwo, classIIfunction, |
+other_assignment := format_other(oi10,oii10)
+StringSplit, other_assignment, other_assignment, |
+dateI := date_format(sdi10)
+sid = %sid10%
+pra1 = %prai10%
+pra2 = %praii10%
+mrn = %mrn10%
+return
+
+p11:
+classIfunction := formatclassI(abi11,oi11)
+classIIfunction := formatclassII(abii11,oii11)
+StringSplit, classone, classIfunction, |
+StringSplit, classtwo, classIIfunction, |
+other_assignment := format_other(oi11,oii11)
+StringSplit, other_assignment, other_assignment, |
+dateI := date_format(sdi11)
+sid = %sid11%
+pra1 = %prai11%
+pra2 = %praii11%
+mrn = %mrn11%
+return
+
+p12:
+classIfunction := formatclassI(abi12,oi12)
+classIIfunction := formatclassII(abii12,oii12)
+StringSplit, classone, classIfunction, |
+StringSplit, classtwo, classIIfunction, |
+other_assignment := format_other(oi12,oii12)
+StringSplit, other_assignment, other_assignment, |
+dateI := date_format(sdi12)
+sid = %sid12%
+pra1 = %prai12%
+pra2 = %praii12%
+mrn = %mrn12%
+return
+
+p13:
+classIfunction := formatclassI(abi13,oi13)
+classIIfunction := formatclassII(abii13,oii13)
+StringSplit, classone, classIfunction, |
+StringSplit, classtwo, classIIfunction, |
+other_assignment := format_other(oi13,oii13)
+StringSplit, other_assignment, other_assignment, |
+dateI := date_format(sdi13)
+sid = %sid13%
+pra1 = %prai13%
+pra2 = %praii13%
+mrn = %mrn13%
+return
+
+p14:
+classIfunction := formatclassI(abi14,oi14)
+classIIfunction := formatclassII(abii14,oii14)
+StringSplit, classone, classIfunction, |
+StringSplit, classtwo, classIIfunction, |
+other_assignment := format_other(oi14,oii14)
+StringSplit, other_assignment, other_assignment, |
+dateI := date_format(sdi14)
+sid = %sid14%
+pra1 = %prai14%
+pra2 = %praii14%
+mrn = %mrn14%
+return
+
+p15:
+classIfunction := formatclassI(abi15,oi15)
+classIIfunction := formatclassII(abii15,oii15)
+StringSplit, classone, classIfunction, |
+StringSplit, classtwo, classIIfunction, |
+other_assignment := format_other(oi15,oii15)
+StringSplit, other_assignment, other_assignment, |
+dateI := date_format(sdi15)
+sid = %sid15%
+pra1 = %prai15%
+pra2 = %praii15%
+mrn = %mrn15%
+return
+
+p16:
+classIfunction := formatclassI(abi16,oi16)
+classIIfunction := formatclassII(abii16,oii16)
+StringSplit, classone, classIfunction, |
+StringSplit, classtwo, classIIfunction, |
+other_assignment := format_other(oi16,oii16)
+StringSplit, other_assignment, other_assignment, |
+dateI := date_format(sdi16)
+sid = %sid16%
+pra1 = %prai16%
+pra2 = %praii16%
+mrn = %mrn16%
+return
+
+p17:
+classIfunction := formatclassI(abi17,oi17)
+classIIfunction := formatclassII(abii17,oii17)
+StringSplit, classone, classIfunction, |
+StringSplit, classtwo, classIIfunction, |
+other_assignment := format_other(oi17,oii17)
+StringSplit, other_assignment, other_assignment, |
+dateI := date_format(sdi17)
+sid = %sid17%
+pra1 = %prai17%
+pra2 = %praii17%
+mrn = %mrn17%
+return
+
+p18:
+classIfunction := formatclassI(abi18,oi18)
+classIIfunction := formatclassII(abii18,oii18)
+StringSplit, classone, classIfunction, |
+StringSplit, classtwo, classIIfunction, |
+other_assignment := format_other(oi18,oii18)
+StringSplit, other_assignment, other_assignment, |
+dateI := date_format(sdi18)
+sid = %sid18%
+pra1 = %prai18%
+pra2 = %praii18%
+mrn = %mrn18%
+return
+
+p19:
+classIfunction := formatclassI(abi19,oi19)
+classIIfunction := formatclassII(abii19,oii19)
+StringSplit, classone, classIfunction, |
+StringSplit, classtwo, classIIfunction, |
+other_assignment := format_other(oi19,oii19)
+StringSplit, other_assignment, other_assignment, |
+dateI := date_format(sdi19)
+sid = %sid19%
+pra1 = %prai19%
+pra2 = %praii19%
+mrn = %mrn19%
+return
+
+p20:
+classIfunction := formatclassI(abi20,oi20)
+classIIfunction := formatclassII(abii20,oii20)
+StringSplit, classone, classIfunction, |
+StringSplit, classtwo, classIIfunction, |
+other_assignment := format_other(oi20,oii20)
+StringSplit, other_assignment, other_assignment, |
+dateI := date_format(sdi20)
+sid = %sid20%
+pra1 = %prai20%
+pra2 = %praii20%
+mrn = %mrn20%
+return
+
+p21:
+classIfunction := formatclassI(abi21,oi21)
+classIIfunction := formatclassII(abii21,oii21)
+StringSplit, classone, classIfunction, |
+StringSplit, classtwo, classIIfunction, |
+other_assignment := format_other(oi21,oii21)
+StringSplit, other_assignment, other_assignment, |
+dateI := date_format(sdi21)
+sid = %sid21%
+pra1 = %prai21%
+pra2 = %praii21%
+mrn = %mrn21%
+return
+
+p22:
+classIfunction := formatclassI(abi22,oi22)
+classIIfunction := formatclassII(abii22,oii22)
+StringSplit, classone, classIfunction, |
+StringSplit, classtwo, classIIfunction, |
+other_assignment := format_other(oi22,oii22)
+StringSplit, other_assignment, other_assignment, |
+dateI := date_format(sdi22)
+sid = %sid22%
+pra1 = %prai22%
+pra2 = %praii22%
+mrn = %mrn22%
+return
+
+shortcuts:
+MsgBox, 0, Keyboard Shortcuts list, [Win+A] Sends antigen data into Unnacceptable Antigens screen in AS400`n[Win+D] Sends date and PRA into Cquence form`n[Win+E] Sends date and PRA into old Cquence forms (has "Chip" field)`n[Win+X] Sends date/Sample ID/Results (both class I & II) into Cquence form`n[Win+S] Sends PRA into AS400 patient summary window`n[CTRL+ALT+P] Locates previous antibody report in Cquence`n[CTRL+ALT+S] Saves negative results in HLA Fusion
+return
+
+reset:
+Reload
+return
+
+
+#a:: ; Shortcut to send UAs to AS400
+send_as400i(classone4,classone2,classone5,classone3,classtwo2,classtwo3,classtwo4,other_assignment2)
+Reload
+return
+
+#d:: ; Shortcut to send date and PRA info in cquence document
+Send, %pra1%{TAB}{TAB}{TAB}%dateI%{TAB}{TAB}X{TAB}{TAB}{TAB}{TAB}{TAB}%pra2%{TAB}{TAB}{TAB}%dateI%
+return
+
+#e:: ;For old cquence ab reports with "Chip" field
+Send, %pra1%{TAB}{TAB}{TAB}%dateI%{TAB}{TAB}{TAB}{TAB}X{TAB}{TAB}{TAB}{TAB}{TAB}%pra2%{TAB}{TAB}{TAB}%dateI%
+return
+
+#x:: ; Shortcut to send date, sample id, and results to cquence document
+Send, %dateI%{TAB}%assaydate%{TAB}%sid%{TAB}sab1{TAB}%classone1%{TAB}%dateI%{TAB}%assaydate%{TAB}%sid%{TAB}sab2{TAB}%classtwo1%
+Reload
+return
+
+#s:: ; Shortcut to enter PRA info only in AS400
+sendAS400_pra(pra1,pra2)
+return
+
+^!p:: ; Macro for locating previous reports in cquence starting from year 2000
+WinWait, Advanced Report Search... - \\Remote, 
+IfWinNotActive, Advanced Report Search... - \\Remote, , WinActivate, Advanced Report Search... - \\Remote, 
+WinWaitActive, Advanced Report Search... - \\Remote, 
+Send, %mrn%
+MouseClick, left,  254,  106
+Sleep, 100
+MouseClick, left,  274,  106
+Sleep, 100
+Send, 2000
+MouseClick, left,  251,  146
+Sleep, 100
+MouseClick, left,  167,  179
+Sleep, 100
+WinWait, Select Work Type - \\Remote, 
+IfWinNotActive, Select Work Type - \\Remote, , WinActivate, Select Work Type - \\Remote, 
+WinWaitActive, Select Work Type - \\Remote, 
+Send, {DOWN}{DOWN}{ENTER}
+WinWait, Advanced Report Search... - \\Remote, 
+IfWinNotActive, Advanced Report Search... - \\Remote, , WinActivate, Advanced Report Search... - \\Remote, 
+WinWaitActive, Advanced Report Search... - \\Remote, 
+MouseClick, left,  542,  79
+Sleep, 100
+Return
+
+GuiClose:
+ExitApp
